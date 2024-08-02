@@ -26,7 +26,11 @@
 
     <modules>
         <module>api</module>
-    </modules>
+		<module>core</module>
+		<module>persistence</module>
+		<module>domain</module>
+		<module>rest</module>
+	</modules>
 
 	<dependencies>
 
@@ -78,24 +82,5 @@
 		</plugins>
 	</build>
 
-
-
-	<!--TODO move to rest??-->
-<!--	<build>-->
-<!--		<plugins>-->
-<!--			<plugin>-->
-<!--				<groupId>org.springframework.boot</groupId>-->
-<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--				<configuration>-->
-<!--					<excludes>-->
-<!--						<exclude>-->
-<!--							<groupId>org.projectlombok</groupId>-->
-<!--							<artifactId>lombok</artifactId>-->
-<!--						</exclude>-->
-<!--					</excludes>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
-<!--		</plugins>-->
-<!--	</build>-->
 
 </project>

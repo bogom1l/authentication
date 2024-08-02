@@ -1,4 +1,4 @@
-package com.tinqinacademy.authentication.api.operations.authentication.checkuser;
+package com.tinqinacademy.authentication.api.operations.checkuser;
 
 import com.tinqinacademy.authentication.api.base.OperationOutput;
 import lombok.*;
@@ -10,4 +10,5 @@ import lombok.*;
 @Builder
 @ToString
 public class CheckUserOutput implements OperationOutput {
+    private String firstName; // sample class
 }

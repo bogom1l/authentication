@@ -1,4 +1,4 @@
-package com.tinqinacademy.authentication.api.operations.authentication.checkuser;
+package com.tinqinacademy.authentication.api.operations.checkuser;
 
 import com.tinqinacademy.authentication.api.base.OperationProcessor;
 
