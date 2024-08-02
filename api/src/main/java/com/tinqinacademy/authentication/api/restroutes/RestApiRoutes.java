@@ -1,4 +1,4 @@
-package com.tinqinacademy.authentication.rest.configuration;
+package com.tinqinacademy.authentication.api.restroutes;
 
 public class RestApiRoutes {
     public static final String API = "/api/v1";

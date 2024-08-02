@@ -1,6 +1,6 @@
 package com.tinqinacademy.authentication.rest.controllers;
 
-import com.tinqinacademy.authentication.rest.configuration.RestApiRoutes;
+import com.tinqinacademy.authentication.api.restroutes.RestApiRoutes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

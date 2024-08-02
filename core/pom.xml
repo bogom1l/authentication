@@ -13,6 +13,7 @@
     <version>${revision}</version>
 
     <dependencies>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>api</artifactId>
@@ -30,7 +31,6 @@
             <artifactId>domain</artifactId>
             <version>${revision}</version>
         </dependency>
-
 
     </dependencies>
 
