@@ -1,6 +1,4 @@
 
 ✔️ poms
 
-desktop/todo.txt
-
 
