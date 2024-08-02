@@ -1,4 +1,4 @@
-package com.tinqinacademy.authentication.core.converters.errorhandler;
+package com.tinqinacademy.authentication.core.errorhandler;
 
 import com.tinqinacademy.authentication.api.error.Error;
 import com.tinqinacademy.authentication.api.error.ErrorsWrapper;

@@ -3,7 +3,7 @@ package com.tinqinacademy.authentication.core.processors.base;
 
 import com.tinqinacademy.authentication.api.error.Error;
 import com.tinqinacademy.authentication.api.exceptions.ValidationException;
-import com.tinqinacademy.authentication.core.converters.errorhandler.ErrorHandler;
+import com.tinqinacademy.authentication.core.errorhandler.ErrorHandler;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.springframework.core.convert.ConversionService;
