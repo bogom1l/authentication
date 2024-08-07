@@ -1,3 +1,11 @@
 todo
 
+-login - create JWT and return it in response
+-register - create User and hash his password
+-logout - clear JWTokens
+-valid - header: JWT; validate it: if expired -> FALSE; else -> TRUE
+                                   if FALSE -> have to login again
+
+-FilterChain v bff
+
 
