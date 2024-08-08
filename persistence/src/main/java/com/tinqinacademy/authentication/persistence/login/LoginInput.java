@@ -1,4 +1,4 @@
-package com.tinqinacademy.authentication.persistence.dto;
+package com.tinqinacademy.authentication.persistence.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDto {
+public class LoginInput {
     private String username;
     private String password;
 }

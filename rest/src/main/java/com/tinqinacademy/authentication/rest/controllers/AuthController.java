@@ -1,20 +1,19 @@
 package com.tinqinacademy.authentication.rest.controllers;
 
-import com.tinqinacademy.authentication.api.restroutes.RestApiRoutes;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.tinqinacademy.authentication.core.services.AuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthController {
 
+    private final AuthService authService;
+
 //    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+//    public ResponseEntity<?> login(HttpServletRequest request, @RequestBody LoginDto loginDto) {
 //
-//        String token = authService.login(loginDto);
+//        String token = authService.login(request, loginDto);
 //        AuthResponse authResponse = new AuthResponse();
 //        authResponse.setAccessToken(token);
 //
