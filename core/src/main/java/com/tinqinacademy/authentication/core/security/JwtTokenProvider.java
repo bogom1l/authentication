@@ -62,7 +62,7 @@ public class JwtTokenProvider {
         String token = Jwts.builder()
                 .subject(authentication.getName())
                 .issuedAt(now)
-                .claim("roles", role) // ''role''
+                .claim("roles", role) // todo ? ''role''
                 .claim("iat", now.getTime() / 1000)
                 .claim("exp", expirityDate.getTime() / 1000)
                 .expiration(expirityDate)
