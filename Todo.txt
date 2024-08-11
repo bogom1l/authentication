@@ -6,11 +6,3 @@ todo
 -valid - header: JWT; validate it: if expired -> FALSE; else -> TRUE
                                    if FALSE -> have to login again
 
-
-https://medium.com/@nagarjun_nagesh/securing-microservices-in-spring-boot-b430f2ba1fd6
-https://www.youtube.com/results?search_query=spring+boot+security+in+microservices+jwt
-https://www.linkedin.com/pulse/implementing-spring-security-across-microservices-william-haywood
-https://medium.com/geekculture/securing-your-microservices-architecture-with-spring-boot-an-in-depth-guide-to-authentication-and-d4acd8cf7efb
-- - -
-https://medium.com/@vikas.taank_40391/getting-started-with-spring-security-c9943438670d
-https://medium.com/@nagarjun_nagesh/role-based-authorization-in-spring-boot-e8bc8a88bd00
