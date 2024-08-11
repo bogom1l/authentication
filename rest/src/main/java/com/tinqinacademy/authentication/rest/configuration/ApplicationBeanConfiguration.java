@@ -1,6 +1,5 @@
 package com.tinqinacademy.authentication.rest.configuration;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
