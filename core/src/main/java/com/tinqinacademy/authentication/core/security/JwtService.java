@@ -18,12 +18,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    //private static final String SECRET_KEY = "OENyGNwu803g4bHk7+wPZrCwHnC9cGs1pv2PwVWPXLvrYwK0vMYSlG1fw4noG0kH\n";
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
 
     @Value("${jwt.expirationTime}")
-    private Integer jwtExpiration; //5min
+    private Integer jwtExpiration; // 5min
 
     public String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);

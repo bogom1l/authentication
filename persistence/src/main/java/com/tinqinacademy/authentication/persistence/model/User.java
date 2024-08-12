@@ -34,8 +34,8 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String password;
-    private String phoneNumber;
-    private LocalDate birthdate;
+    //private String phoneNumber;
+    //private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
