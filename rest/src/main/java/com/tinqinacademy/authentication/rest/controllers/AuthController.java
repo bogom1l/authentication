@@ -28,9 +28,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterInput input) {
-        //return new ResponseEntity<>(authenticationService.register(request), HttpStatus.OK);
         Either<ErrorsWrapper, RegisterOutput> output = registerOperation.process(input);
-        return new ResponseEntity<>(output, HttpStatus.OK);
+        return new ResponseEntity<>(output.get(), HttpStatus.OK);
     }
 
     @PostMapping("/login")
