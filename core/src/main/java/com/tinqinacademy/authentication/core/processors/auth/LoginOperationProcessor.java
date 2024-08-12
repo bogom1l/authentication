@@ -42,6 +42,8 @@ public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> 
     }
 
     private LoginOutput login(LoginInput input) {
+        log.info("Started LoginOperationProcessor with input: {}", input);
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword())
         );
@@ -51,8 +53,11 @@ public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> 
 
         String jwtToken = jwtService.generateToken(user);
 
-        return LoginOutput.builder()
+        LoginOutput output = LoginOutput.builder()
                 .token(jwtToken)
                 .build();
+
+        log.info("Ended LoginOperationProcessor with output: {}", output);
+        return output;
     }
 }

@@ -1,16 +1,10 @@
 package com.tinqinacademy.authentication.rest.controllers;
 
-import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
 import com.tinqinacademy.authentication.api.operations.login.LoginInput;
 import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
-import com.tinqinacademy.authentication.api.operations.login.LoginOutput;
 import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
-import com.tinqinacademy.authentication.api.operations.register.RegisterOutput;
-import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
