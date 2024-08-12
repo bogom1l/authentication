@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/authentication")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    //private final AuthenticationService authenticationService;
     private final RegisterOperation registerOperation;
     private final LoginOperation loginOperation;
 

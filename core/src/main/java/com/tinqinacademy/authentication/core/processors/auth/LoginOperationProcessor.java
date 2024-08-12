@@ -46,7 +46,8 @@ public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> 
                 new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword())
         );
         // if authentication is successful (username and password are correct)
-        User user = userRepository.findByEmail(input.getEmail()).orElseThrow(() -> new AuthenticationException("User not found"));
+        User user = userRepository.findByEmail(input.getEmail())
+                .orElseThrow(() -> new AuthenticationException("User not found"));
 
         String jwtToken = jwtService.generateToken(user);
 
