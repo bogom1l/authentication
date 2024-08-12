@@ -19,6 +19,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 @Service
 @Slf4j
 public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> implements LoginOperation {
@@ -43,6 +45,7 @@ public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> 
 
     private LoginOutput login(LoginInput input) {
         log.info("Started LoginOperationProcessor with input: {}", input);
+        validateInput(input);
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword())
@@ -51,7 +54,9 @@ public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> 
         User user = userRepository.findByEmail(input.getEmail())
                 .orElseThrow(() -> new AuthenticationException("User not found"));
 
-        String jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(new HashMap<>() {{
+            put("id", user.getId());
+        }}, user);
 
         LoginOutput output = LoginOutput.builder()
                 .token(jwtToken)
