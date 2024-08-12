@@ -16,9 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfig {
 
-    private static final String[] WHITE_LIST_URL = {
+    private static final String[] WHITE_LIST_URLs = {
             "/api/v1/auth/**",
             "/v2/api-docs",
             "/v3/api-docs",
@@ -38,7 +38,7 @@ public class SecurityConfiguration {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL).permitAll()
+                .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URLs).permitAll()
                         //.requestMatchers("/api/v1/demo-controller/**").hasAnyRole(ADMIN.name())
                         .anyRequest()
                         .authenticated()
