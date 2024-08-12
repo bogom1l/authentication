@@ -1,22 +1,26 @@
 package com.tinqinacademy.authentication.core.security;
 
+import com.tinqinacademy.authentication.persistence.model.User;
+import com.tinqinacademy.authentication.persistence.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
+
+    private final UserRepository userRepository;
 
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
@@ -71,6 +75,12 @@ public class JwtService {
 
     private Date extractExpiration(String jwt) {
         return extractClaim(jwt, Claims::getExpiration);
+    }
+
+    public boolean isTokenValidWithUserId(String jwt) {
+        String id = extractClaim(jwt, claims -> claims.get("id", String.class));
+        Optional<User> user = userRepository.findById(UUID.fromString(id));
+        return user.isPresent() && !isTokenExpired(jwt);
     }
 
 }

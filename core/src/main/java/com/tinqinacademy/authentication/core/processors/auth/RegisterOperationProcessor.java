@@ -35,6 +35,7 @@ public class RegisterOperationProcessor extends BaseOperationProcessor<RegisterI
 
     private RegisterOutput register(RegisterInput input) {
         log.info("Started RegisterOperationProcessor with input: {}", input);
+        validateInput(input);
 
         User user = conversionService.convert(input, User.class);
         userRepository.save(user);
