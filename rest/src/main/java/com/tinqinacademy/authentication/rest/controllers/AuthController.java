@@ -20,25 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController extends BaseController {
 
     private final RegisterOperation registerOperation;
     private final LoginOperation loginOperation;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterInput input) {
-        Either<ErrorsWrapper, RegisterOutput> output = registerOperation.process(input);
-        return new ResponseEntity<>(output.get(), HttpStatus.OK);
+        return handle(registerOperation.process(input));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginInput input) {
-        Either<ErrorsWrapper, LoginOutput> output = loginOperation.process(input);
-        if (output.isRight()) {
-            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, output.get().getToken()).build();
-        } else {
-            return new ResponseEntity<>(output.getLeft(), HttpStatus.UNAUTHORIZED);
-        }
+        return handleWithJwt(loginOperation.process(input));
     }
 
 }

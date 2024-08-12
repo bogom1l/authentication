@@ -5,6 +5,7 @@ import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
 import com.tinqinacademy.authentication.api.exceptions.AuthenticationException;
 import com.tinqinacademy.authentication.api.exceptions.ValidationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -24,6 +25,7 @@ public class ErrorHandler {
                 Case($(instanceOf(MethodArgumentNotValidException.class)), ex -> handleMethodArgumentNotValidException(ex, errors)),
                 Case($(instanceOf(ValidationException.class)), ex -> handleValidationException(ex, errors)),
                 Case($(instanceOf(AuthenticationException.class)), ex -> handleAuthenticationException(ex, errors)),
+                Case($(instanceOf(BadCredentialsException.class)), ex -> handleBadCredentialsException(ex, errors)),
                 Case($(), ex -> handleGenericException(ex, errors))
         );
 
@@ -55,6 +57,11 @@ public class ErrorHandler {
     private HttpStatus handleAuthenticationException(AuthenticationException ex, List<Error> errors) {
         errors.add(Error.builder().message(ex.getMessage()).build());
         return HttpStatus.NOT_FOUND;
+    }
+
+    private HttpStatus handleBadCredentialsException(BadCredentialsException ex, List<Error> errors) {
+        errors.add(Error.builder().message(ex.getMessage()).build());
+        return HttpStatus.UNAUTHORIZED;
     }
 
     private HttpStatus handleGenericException(Throwable ex, List<Error> errors) {
