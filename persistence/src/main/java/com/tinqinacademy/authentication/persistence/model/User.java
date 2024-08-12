@@ -28,8 +28,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-//    @Column(name = "username", nullable = false, unique = true)
-//    private String username;
+    //    @Column(name = "username", nullable = false, unique = true)
+    //    private String username;
     private String firstName;
     private String lastName;
     private String email;

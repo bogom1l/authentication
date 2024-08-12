@@ -1,10 +1,15 @@
 package com.tinqinacademy.authentication.rest.controllers;
 
-import com.tinqinacademy.authentication.core.services.AuthenticationService;
-import com.tinqinacademy.authentication.persistence.register.AuthenticationRequest;
-import com.tinqinacademy.authentication.persistence.register.AuthenticationResponse;
-import com.tinqinacademy.authentication.persistence.register.RegisterRequest;
+import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
+import com.tinqinacademy.authentication.api.operations.login.LoginInput;
+import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
+import com.tinqinacademy.authentication.api.operations.login.LoginOutput;
+import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
+import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
+import com.tinqinacademy.authentication.api.operations.register.RegisterOutput;
+import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,20 +18,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/authentication")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthenticationService authenticationService;
+    private final RegisterOperation registerOperation;
+    private final LoginOperation loginOperation;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return new ResponseEntity<>(authenticationService.register(request), HttpStatus.OK);
+    public ResponseEntity<?> register(@RequestBody RegisterInput input) {
+        Either<ErrorsWrapper, RegisterOutput> output = registerOperation.process(input);
+        return new ResponseEntity<>(output.get(), HttpStatus.OK);
     }
 
-    @PostMapping("/authenticate") // login
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        return new ResponseEntity<>(authenticationService.authenticate(request), HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginInput input) {
+        Either<ErrorsWrapper, LoginOutput> output = loginOperation.process(input);
+        if (output.isRight()) {
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, output.get().getToken()).build();
+        } else {
+            return new ResponseEntity<>(output.getLeft(), HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }
