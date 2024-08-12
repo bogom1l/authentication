@@ -49,7 +49,6 @@ public class SecurityConfiguration {
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
                                 //.requestMatchers("/api/v1/demo-controller/**").hasAnyRole(ADMIN.name())
-                                //.requestMatchers("/api/v1/authentication/register").permitAll() // Allow access to the register endpoint
                                 .anyRequest()
                                 .authenticated()
                 )

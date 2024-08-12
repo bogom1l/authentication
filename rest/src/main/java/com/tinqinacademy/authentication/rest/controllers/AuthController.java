@@ -1,12 +1,11 @@
 package com.tinqinacademy.authentication.rest.controllers;
 
 import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
-import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
-import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
-//import com.tinqinacademy.authentication.core.services.AuthenticationService;
 import com.tinqinacademy.authentication.api.operations.login.LoginInput;
+import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
 import com.tinqinacademy.authentication.api.operations.login.LoginOutput;
 import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
+import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOutput;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
@@ -28,21 +27,16 @@ public class AuthController {
     private final LoginOperation loginOperation;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterInput input){
+    public ResponseEntity<?> register(@RequestBody RegisterInput input) {
         //return new ResponseEntity<>(authenticationService.register(request), HttpStatus.OK);
         Either<ErrorsWrapper, RegisterOutput> output = registerOperation.process(input);
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginInput input){
+    public ResponseEntity<?> login(@RequestBody LoginInput input) {
         Either<ErrorsWrapper, LoginOutput> output = loginOperation.process(input);
         if (output.isRight()) {
-//            LoginOutput loginOutput = output.get();
-//            String token = loginOutput.getToken();
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.set("Authorization", "Bearer " + token);
-           // return new ResponseEntity<>(loginOutput, headers, HttpStatus.OK);
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, output.get().getToken()).build();
         } else {
             return new ResponseEntity<>(output.getLeft(), HttpStatus.UNAUTHORIZED);

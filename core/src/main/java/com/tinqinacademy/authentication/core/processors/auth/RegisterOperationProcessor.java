@@ -6,7 +6,6 @@ import com.tinqinacademy.authentication.api.operations.register.RegisterOperatio
 import com.tinqinacademy.authentication.api.operations.register.RegisterOutput;
 import com.tinqinacademy.authentication.core.errorhandler.ErrorHandler;
 import com.tinqinacademy.authentication.core.processors.base.BaseOperationProcessor;
-import com.tinqinacademy.authentication.core.security.JwtService;
 import com.tinqinacademy.authentication.persistence.enums.Role;
 import com.tinqinacademy.authentication.persistence.model.User;
 import com.tinqinacademy.authentication.persistence.repository.UserRepository;
@@ -17,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @Slf4j
@@ -42,14 +43,14 @@ public class RegisterOperationProcessor extends BaseOperationProcessor<RegisterI
         User user = User.builder()
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
+                .birthdate(LocalDate.parse(input.getBirthdate()))
+                .phoneNumber(input.getPhoneNumber())
                 .email(input.getEmail())
                 .password(passwordEncoder.encode(input.getPassword()))
                 .role(Role.USER)
                 .build();
 
         userRepository.save(user);
-
-        //String jwtToken = jwtService.generateToken(user);
 
         return RegisterOutput.builder()
                 .id(user.getId())
