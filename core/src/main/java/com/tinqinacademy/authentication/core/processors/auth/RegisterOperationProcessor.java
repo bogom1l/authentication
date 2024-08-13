@@ -1,6 +1,7 @@
 package com.tinqinacademy.authentication.core.processors.auth;
 
 import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
+import com.tinqinacademy.authentication.api.exceptions.AuthenticationException;
 import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOutput;
@@ -13,6 +14,7 @@ import io.vavr.control.Try;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,9 +35,20 @@ public class RegisterOperationProcessor extends BaseOperationProcessor<RegisterI
                 .mapLeft(errorHandler::handleErrors);
     }
 
+    private void checkIfUserExistsByUsernameOrEmail(RegisterInput input) {
+        userRepository.findByUsername(input.getUsername()).ifPresent(user -> {
+            throw new AuthenticationException("Username already exists", HttpStatus.BAD_REQUEST);
+        });
+
+        userRepository.findByEmail(input.getEmail()).ifPresent(user -> {
+            throw new AuthenticationException("Email already exists", HttpStatus.BAD_REQUEST);
+        });
+    }
+
     private RegisterOutput register(RegisterInput input) {
         log.info("Started RegisterOperationProcessor with input: {}", input);
         validateInput(input);
+        checkIfUserExistsByUsernameOrEmail(input);
 
         User user = conversionService.convert(input, User.class);
         userRepository.save(user);

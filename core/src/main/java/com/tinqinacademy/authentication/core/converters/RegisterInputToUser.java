@@ -30,6 +30,7 @@ public class RegisterInputToUser implements Converter<RegisterInput, User> {
                 .email(source.getEmail())
                 .password(passwordEncoder.encode(source.getPassword()))
                 .role(Role.USER)
+                .username(source.getUsername())
                 .build();
 
         log.info("Ended Converter - RegisterInput to User");

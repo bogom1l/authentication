@@ -6,11 +6,10 @@ import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtOp
 import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtOutput;
 import com.tinqinacademy.authentication.core.errorhandler.ErrorHandler;
 import com.tinqinacademy.authentication.core.processors.base.BaseOperationProcessor;
-import com.tinqinacademy.authentication.core.security.JwtService;
+import com.tinqinacademy.authentication.core.security.JwtTokenProvider;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import jakarta.validation.Validator;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ValidateJwtOperationProcessor extends BaseOperationProcessor<ValidateJwtInput> implements ValidateJwtOperation {
 
-    private final JwtService jwtService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    protected ValidateJwtOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, JwtService jwtService) {
+    protected ValidateJwtOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, JwtTokenProvider jwtTokenProvider) {
         super(conversionService, errorHandler, validator);
-        this.jwtService = jwtService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class ValidateJwtOperationProcessor extends BaseOperationProcessor<Valida
         String jwt = input.getAuthHeader().substring(7);
 
         ValidateJwtOutput output = ValidateJwtOutput.builder()
-                .isValid(jwtService.isTokenValidWithUserId(jwt))
+                .isValid(jwtTokenProvider.validateToken(jwt))
                 .build();
 
         log.info("Ended ValidateJwtOperationProcessor with output: {}", output);

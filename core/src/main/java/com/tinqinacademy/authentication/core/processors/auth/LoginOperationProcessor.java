@@ -7,7 +7,7 @@ import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
 import com.tinqinacademy.authentication.api.operations.login.LoginOutput;
 import com.tinqinacademy.authentication.core.errorhandler.ErrorHandler;
 import com.tinqinacademy.authentication.core.processors.base.BaseOperationProcessor;
-import com.tinqinacademy.authentication.core.security.JwtService;
+import com.tinqinacademy.authentication.core.security.JwtTokenProvider;
 import com.tinqinacademy.authentication.persistence.model.User;
 import com.tinqinacademy.authentication.persistence.repository.UserRepository;
 import io.vavr.control.Either;
@@ -15,25 +15,23 @@ import io.vavr.control.Try;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 @Service
 @Slf4j
 public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> implements LoginOperation {
 
     private final UserRepository userRepository;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
-    protected LoginOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, UserRepository userRepository, JwtService jwtService, AuthenticationManager authenticationManager) {
+    protected LoginOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, UserRepository userRepository, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
         super(conversionService, errorHandler, validator);
         this.userRepository = userRepository;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -43,23 +41,27 @@ public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> 
                 .mapLeft(errorHandler::handleErrors);
     }
 
+    private User getUserAfterValidatingUsernameAndPassword(LoginInput input) {
+        User user = userRepository.findByUsername(input.getUsername())
+                .orElseThrow(() -> new AuthenticationException("Invalid credentials", HttpStatus.BAD_REQUEST));
+
+        if (!passwordEncoder.matches(input.getPassword(), user.getPassword())) {
+            throw new AuthenticationException("Invalid credentials", HttpStatus.BAD_REQUEST);
+        }
+
+        return user;
+    }
+
     private LoginOutput login(LoginInput input) {
         log.info("Started LoginOperationProcessor with input: {}", input);
         validateInput(input);
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword())
-        );
-        // if authentication is successful (username and password are correct)
-        User user = userRepository.findByEmail(input.getEmail())
-                .orElseThrow(() -> new AuthenticationException("User not found"));
+        User user = getUserAfterValidatingUsernameAndPassword(input);
 
-        String jwtToken = jwtService.generateToken(new HashMap<>() {{
-            put("id", user.getId());
-        }}, user);
+        String jwt = jwtTokenProvider.generateToken(user);
 
         LoginOutput output = LoginOutput.builder()
-                .token(jwtToken)
+                .token(jwt)
                 .build();
 
         log.info("Ended LoginOperationProcessor with output: {}", output);

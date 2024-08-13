@@ -6,6 +6,7 @@ import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
 import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtInput;
 import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,12 @@ public class AuthController extends BaseController {
         return handleWithJwt(loginOperation.process(input));
     }
 
+    @Operation(summary = "Validate JWT",
+            description = "Swagger's login header always overrides this field, so it is not required.",
+            hidden = false) // hidden = true, because we will only use this endpoint in the bff
     @PostMapping("/validate-jwt")
-    public ResponseEntity<?> validateJwt(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = true) String authHeader) {
+    public ResponseEntity<?> validateJwt(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+        //required = false, swagger's login header always overrides this field anyway
         ValidateJwtInput input = ValidateJwtInput.builder().authHeader(authHeader).build();
         return handle(validateJwtOperation.process(input));
     }
