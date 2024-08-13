@@ -35,9 +35,9 @@ public class AuthController extends BaseController {
             description = "Swagger's login header always overrides this field, so it is not required.",
             hidden = false) // hidden = true, because we will only use this endpoint in the bff
     @PostMapping("/validate-jwt")
-    public ResponseEntity<?> validateJwt(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+    public ResponseEntity<?> validateJwt(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorizationHeader) {
         //required = false, swagger's login header always overrides this field anyway
-        ValidateJwtInput input = ValidateJwtInput.builder().authHeader(authHeader).build();
+        ValidateJwtInput input = ValidateJwtInput.builder().authorizationHeader(authorizationHeader).build();
         return handle(validateJwtOperation.process(input));
     }
 

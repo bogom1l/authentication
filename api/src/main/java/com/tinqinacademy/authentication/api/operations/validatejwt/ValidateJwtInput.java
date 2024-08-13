@@ -12,5 +12,5 @@ import lombok.*;
 @ToString
 public class ValidateJwtInput implements OperationInput {
     @NotNull
-    private String authHeader;
+    private String authorizationHeader;
 }

@@ -36,7 +36,7 @@ public class ValidateJwtOperationProcessor extends BaseOperationProcessor<Valida
         log.info("Started ValidateJwtOperationProcessor with input: {}", input);
         validateInput(input);
 
-        String jwt = input.getAuthHeader().substring(7);
+        String jwt = input.getAuthorizationHeader().substring(7);
 
         ValidateJwtOutput output = ValidateJwtOutput.builder()
                 .isValid(jwtTokenProvider.validateToken(jwt))
