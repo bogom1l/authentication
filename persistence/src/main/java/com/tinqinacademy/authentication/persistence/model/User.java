@@ -23,6 +23,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    //todo validations: for example: @Column(name = "username", nullable = false, unique = true) , ...
     private String username;
     private String firstName;
     private String lastName;
@@ -42,4 +43,3 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }
-//todo validations: for example: @Column(name = "username", nullable = false, unique = true) , ...

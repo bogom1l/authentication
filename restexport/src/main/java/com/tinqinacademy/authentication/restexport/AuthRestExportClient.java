@@ -15,5 +15,4 @@ public interface AuthRestExportClient {
     @PostMapping(RestApiRoutes.AUTH_CHECK_JWT)
     @Headers({"Authorization: {authorizationHeader}"})
     ValidateJwtOutput validateJwt(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader);
-
 }

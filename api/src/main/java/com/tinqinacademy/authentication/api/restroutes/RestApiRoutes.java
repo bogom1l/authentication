@@ -8,5 +8,7 @@ public class RestApiRoutes {
 
     public static final String CHECK_ROOM_AVAILABILITY = API_HOTEL + "/rooms";
 
+    public static final String REGISTER = API_AUTH + "/register";
+    public static final String LOGIN = API_AUTH + "/login";
     public final static String AUTH_CHECK_JWT = API_AUTH + "/validate-jwt";
 }

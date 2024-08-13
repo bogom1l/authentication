@@ -27,19 +27,19 @@ public class ValidateJwtOperationProcessor extends BaseOperationProcessor<Valida
 
     @Override
     public Either<ErrorsWrapper, ValidateJwtOutput> process(ValidateJwtInput input) {
-        return Try.of(() -> validateJwt(input))
+        return Try.of(() -> validateToken(input))
                 .toEither()
                 .mapLeft(errorHandler::handleErrors);
     }
 
-    private ValidateJwtOutput validateJwt(ValidateJwtInput input) {
+    private ValidateJwtOutput validateToken(ValidateJwtInput input) {
         log.info("Started ValidateJwtOperationProcessor with input: {}", input);
         validateInput(input);
 
-        String jwt = input.getAuthorizationHeader().substring(7);
+        String token = input.getAuthorizationHeader().substring(7);
 
         ValidateJwtOutput output = ValidateJwtOutput.builder()
-                .isValid(jwtTokenProvider.validateToken(jwt))
+                .isValid(jwtTokenProvider.validateToken(token))
                 .build();
 
         log.info("Ended ValidateJwtOperationProcessor with output: {}", output);

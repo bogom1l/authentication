@@ -20,26 +20,27 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private final UserRepository userRepository;
-
     @Value("${jwt.secretKey}")
-    private String SECRET_KEY;
+    private String JWT_SECRET_KEY;
 
     @Value("${jwt.expirationTime}")
-    private Integer jwtExpiration; // 5min
+    private Integer JWT_EXPIRATION; // 5min
+
+    private final UserRepository userRepository;
 
     private SecretKey getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean validateToken(String jwt) {
+    public boolean validateToken(String token) {
         String id;
         String role;
 
         try {
-            id = extractId(jwt);
-            role = extractRole(jwt);
+            id = extractId(token);
+            role = extractRole(token);
+            // if token is expired, it will catch it in the extractAllClaims(which is called when we call extractId)
         } catch (AuthenticationException ex) {
             return false;
         }
@@ -49,37 +50,33 @@ public class JwtTokenProvider {
         return user.isPresent() && user.get().getRole().toString().equals(role);
     }
 
-    private boolean isTokenExpired(String jwt) {
-        return extractExpiration(jwt).before(new Date());
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 
-    public Date extractExpiration(String jwt) {
-        return extractClaim(jwt, Claims::getExpiration);
+    public String extractId(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
 
-    public String extractId(String jwt) {
-        return extractClaim(jwt, Claims::getSubject);
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
-    public String extractRole(String jwt) {
-        return extractClaim(jwt, claims -> claims.get("role", String.class));
-    }
-
-    public <T> T extractClaim(String jwt, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(jwt);
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String jwt) {
+    private Claims extractAllClaims(String token) {
         try {
             return Jwts
                     .parser()
                     .verifyWith(getKey())
                     .build()
-                    .parseSignedClaims(jwt)
+                    .parseSignedClaims(token)
                     .getPayload();
         } catch (Exception e) {
-            throw new AuthenticationException("Invalid JWT.", HttpStatus.UNAUTHORIZED);
+            throw new AuthenticationException("Invalid JWT", HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -89,7 +86,7 @@ public class JwtTokenProvider {
 
     private String generateToken(Map<String, Object> extraClaims, User user) {
         Date currentDate = new Date();
-        Date expirationDate = new Date(currentDate.getTime() + jwtExpiration);
+        Date expirationDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
 
         String token = Jwts.builder()
                 .claims(extraClaims)
@@ -101,6 +98,7 @@ public class JwtTokenProvider {
                 .expiration(expirationDate)
                 .signWith(getKey())
                 .compact();
+
         return token;
     }
 
