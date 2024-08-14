@@ -3,4 +3,7 @@ TODO
 ✔️ login - create JWT and return it in response
 ✔️ register - create User and hash his password
 ✔️ valid - header: JWT;
-❌ logout - clear JWTokens
+❌ logout
+❌ all other endpoints
+❌ clear expired JWTokens (blacklisted tokens)
+
