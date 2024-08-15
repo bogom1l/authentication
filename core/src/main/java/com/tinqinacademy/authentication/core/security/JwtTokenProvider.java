@@ -16,6 +16,9 @@ import javax.crypto.SecretKey;
 import java.util.*;
 import java.util.function.Function;
 
+/***
+ * This service handles all aspects of JWT token management - generation, validation, and extracting user information from the token.
+ */
 @Service
 @RequiredArgsConstructor
 public class JwtTokenProvider {

@@ -14,6 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+/**
+ * Validates the JWT token by calling the JwtTokenProvider
+ * Returns the ValidateJwtOutput model with the boolean isValid result
+ */
 @Service
 @Slf4j
 public class ValidateJwtOperationProcessor extends BaseOperationProcessor<ValidateJwtInput> implements ValidateJwtOperation {

@@ -17,6 +17,10 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+/**
+ * Registers a new user by converting RegisterInput to User model and saving it to the database
+ * Returns the RegisterOutput model with the user id
+ */
 @Service
 @Slf4j
 public class RegisterOperationProcessor extends BaseOperationProcessor<RegisterInput> implements RegisterOperation {

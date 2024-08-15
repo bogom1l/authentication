@@ -19,6 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Finds user by LoginInput model - username and password
+ * Generates JWT token from JwtTokenProvider
+ * Returns the token in the LoginOutput model, which then returns the token in the response header
+ */
 @Service
 @Slf4j
 public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> implements LoginOperation {
