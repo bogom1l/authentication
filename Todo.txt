@@ -1,9 +1,14 @@
 TODO
 
+- BFF to Auth endpoints:
 ✔️ login - create JWT and return it in response
 ✔️ register - create User and hash his password
-✔️ valid - header: JWT;
-❌ logout
-❌ all other endpoints
-❌ clear expired JWTokens (blacklisted tokens)
+✔️ validate - header: JWT;
+❌ logout [ + clear expired JWTokens (blacklisted tokens) ]
+❌ promote user to admin
+❌ demote admin to user
+❌ change password
+❌ recover password
+❌ confirm registration
+
 
