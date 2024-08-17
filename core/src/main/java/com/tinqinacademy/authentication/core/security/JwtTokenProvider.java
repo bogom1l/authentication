@@ -23,13 +23,13 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
+    private final UserRepository userRepository;
+
     @Value("${jwt.secretKey}")
     private String JWT_SECRET_KEY;
 
     @Value("${jwt.expirationTime}")
     private Integer JWT_EXPIRATION; // 5min
-
-    private final UserRepository userRepository;
 
     private SecretKey getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET_KEY);
@@ -104,6 +104,4 @@ public class JwtTokenProvider {
 
         return token;
     }
-
-
 }

@@ -8,24 +8,40 @@ import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtIn
 import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtOperation;
 import com.tinqinacademy.authentication.api.restroutes.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController extends BaseController {
-
     private final RegisterOperation registerOperation;
     private final LoginOperation loginOperation;
     private final ValidateJwtOperation validateJwtOperation;
 
+    @Operation(summary = "Register",
+            description = "Register a new user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
     @PostMapping(RestApiRoutes.REGISTER)
     public ResponseEntity<?> register(@RequestBody RegisterInput input) {
         return handle(registerOperation.process(input));
     }
 
+    @Operation(summary = "Login",
+            description = "Login to user account")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
     @PostMapping(RestApiRoutes.LOGIN)
     public ResponseEntity<?> login(@RequestBody LoginInput input) {
         return handleWithJwt(loginOperation.process(input));

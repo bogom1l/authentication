@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> implements LoginOperation {
-
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;

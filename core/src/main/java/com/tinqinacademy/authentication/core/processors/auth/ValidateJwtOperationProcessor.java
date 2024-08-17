@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class ValidateJwtOperationProcessor extends BaseOperationProcessor<ValidateJwtInput> implements ValidateJwtOperation {
-
     private final JwtTokenProvider jwtTokenProvider;
 
     protected ValidateJwtOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, JwtTokenProvider jwtTokenProvider) {

@@ -1,6 +1,5 @@
 package com.tinqinacademy.authentication.api.error;
 
-
 import lombok.*;
 import org.springframework.http.HttpStatus;
 

@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class RegisterOperationProcessor extends BaseOperationProcessor<RegisterInput> implements RegisterOperation {
-
     private final UserRepository userRepository;
 
     protected RegisterOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, UserRepository userRepository) {

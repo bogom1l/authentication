@@ -1,6 +1,5 @@
 package com.tinqinacademy.authentication.restexport;
 
-
 import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtOutput;
 import com.tinqinacademy.authentication.api.restroutes.RestApiRoutes;
 import feign.Headers;
