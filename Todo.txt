@@ -10,5 +10,6 @@ TODO
 ❌ change password
 ❌ recover password
 ❌ confirm registration
+❌ [bonus]getAllUsers (ADMIN only) - returns list of all users
 
 
