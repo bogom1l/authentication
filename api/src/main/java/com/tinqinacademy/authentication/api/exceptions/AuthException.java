@@ -2,11 +2,11 @@ package com.tinqinacademy.authentication.api.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class AuthenticationException extends RuntimeException {
+public class AuthException extends RuntimeException {
 
     private final HttpStatus status;
 
-    public AuthenticationException(String message, HttpStatus status) {
+    public AuthException(String message, HttpStatus status) {
         super(message);
         this.status = status;
     }

@@ -2,7 +2,7 @@ package com.tinqinacademy.authentication.core.errorhandler;
 
 import com.tinqinacademy.authentication.api.error.Error;
 import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
-import com.tinqinacademy.authentication.api.exceptions.AuthenticationException;
+import com.tinqinacademy.authentication.api.exceptions.AuthException;
 import com.tinqinacademy.authentication.api.exceptions.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class ErrorHandler {
         return Match(throwable).of(
                 Case($(instanceOf(MethodArgumentNotValidException.class)), ex -> handleMethodArgumentNotValidException(ex)),
                 Case($(instanceOf(ValidationException.class)), ex -> handleValidationException(ex)),
-                Case($(instanceOf(AuthenticationException.class)), ex -> handleAuthenticationException(ex)),
+                Case($(instanceOf(AuthException.class)), ex -> handleAuthException(ex)),
                 Case($(instanceOf(BadCredentialsException.class)), ex -> handleBadCredentialsException(ex)),
                 Case($(instanceOf(DataIntegrityViolationException.class)), this::handleDataIntegrityViolationException),
                 Case($(), ex -> handleGenericException(ex))
@@ -58,7 +58,7 @@ public class ErrorHandler {
         return createErrorsWrapper(errors, HttpStatus.BAD_REQUEST);
     }
 
-    private static ErrorsWrapper handleAuthenticationException(AuthenticationException ex) {
+    private static ErrorsWrapper handleAuthException(AuthException ex) {
         List<Error> errors = List.of(createError(null, ex.getMessage()));
         return createErrorsWrapper(errors, HttpStatus.NOT_FOUND);
     }

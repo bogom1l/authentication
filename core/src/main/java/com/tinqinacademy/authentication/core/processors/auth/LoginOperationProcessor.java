@@ -1,7 +1,7 @@
 package com.tinqinacademy.authentication.core.processors.auth;
 
 import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
-import com.tinqinacademy.authentication.api.exceptions.AuthenticationException;
+import com.tinqinacademy.authentication.api.exceptions.AuthException;
 import com.tinqinacademy.authentication.api.operations.login.LoginInput;
 import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
 import com.tinqinacademy.authentication.api.operations.login.LoginOutput;
@@ -47,10 +47,10 @@ public class LoginOperationProcessor extends BaseOperationProcessor<LoginInput> 
 
     private User getUserAfterValidatingUsernameAndPassword(LoginInput input) {
         User user = userRepository.findByUsername(input.getUsername())
-                .orElseThrow(() -> new AuthenticationException("Invalid credentials", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new AuthException("Invalid credentials", HttpStatus.BAD_REQUEST));
 
         if (!passwordEncoder.matches(input.getPassword(), user.getPassword())) {
-            throw new AuthenticationException("Invalid credentials", HttpStatus.BAD_REQUEST);
+            throw new AuthException("Invalid credentials", HttpStatus.BAD_REQUEST);
         }
 
         return user;

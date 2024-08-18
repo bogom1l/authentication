@@ -1,7 +1,7 @@
 package com.tinqinacademy.authentication.core.processors.auth;
 
 import com.tinqinacademy.authentication.api.error.ErrorsWrapper;
-import com.tinqinacademy.authentication.api.exceptions.AuthenticationException;
+import com.tinqinacademy.authentication.api.exceptions.AuthException;
 import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOutput;
@@ -40,11 +40,11 @@ public class RegisterOperationProcessor extends BaseOperationProcessor<RegisterI
 
     private void checkIfUserExistsByUsernameOrEmail(RegisterInput input) {
         userRepository.findByUsername(input.getUsername()).ifPresent(user -> {
-            throw new AuthenticationException("Username already exists", HttpStatus.BAD_REQUEST);
+            throw new AuthException("Username already exists", HttpStatus.BAD_REQUEST);
         });
 
         userRepository.findByEmail(input.getEmail()).ifPresent(user -> {
-            throw new AuthenticationException("Email already exists", HttpStatus.BAD_REQUEST);
+            throw new AuthException("Email already exists", HttpStatus.BAD_REQUEST);
         });
     }
 
