@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,12 +29,12 @@ public class AuthController extends BaseController {
     @Operation(summary = "Register",
             description = "Register a new user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "201", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @PostMapping(RestApiRoutes.REGISTER)
     public ResponseEntity<?> register(@RequestBody RegisterInput input) {
-        return handle(registerOperation.process(input));
+        return handleWithStatus(registerOperation.process(input), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Login",
@@ -56,5 +57,4 @@ public class AuthController extends BaseController {
         ValidateJwtInput input = ValidateJwtInput.builder().authorizationHeader(authorizationHeader).build();
         return handle(validateJwtOperation.process(input));
     }
-
 }
