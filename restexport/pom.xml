@@ -14,13 +14,11 @@
 
     <dependencies>
 
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>api</artifactId>
             <version>${revision}</version>
         </dependency>
-
 
     </dependencies>
 

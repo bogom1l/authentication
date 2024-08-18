@@ -12,8 +12,4 @@
     <artifactId>domain</artifactId>
     <version>${revision}</version>
 
-    <dependencies>
-        <!-- TODO -->
-    </dependencies>
-
 </project>
