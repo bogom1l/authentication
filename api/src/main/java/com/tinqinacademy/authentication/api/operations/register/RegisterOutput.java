@@ -10,6 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class RegisterOutput implements OperationOutput {
     private UUID id;
 }

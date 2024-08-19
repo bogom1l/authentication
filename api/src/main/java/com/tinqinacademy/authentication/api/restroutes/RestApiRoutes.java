@@ -6,5 +6,8 @@ public class RestApiRoutes {
 
     public static final String REGISTER = API_AUTH + "/register";
     public static final String LOGIN = API_AUTH + "/login";
-    public final static String AUTH_CHECK_JWT = API_AUTH + "/validate-jwt";
+    public static final String AUTH_CHECK_JWT = API_AUTH + "/validate-jwt";
+    public static final String PROMOTE = API_AUTH + "/promote";
+    public static final String DEMOTE = API_AUTH + "/demote";
+
 }

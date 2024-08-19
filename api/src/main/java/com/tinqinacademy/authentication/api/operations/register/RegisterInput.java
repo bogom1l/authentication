@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class RegisterInput implements OperationInput {
     @NotNull
     private String username;

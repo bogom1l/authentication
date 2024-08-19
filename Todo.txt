@@ -4,10 +4,10 @@ TODO
 ✔️ login - create JWT and return it in response
 ✔️ register - create User and hash his password
 ✔️ validate - header: JWT;
-❌ logout [ + clear expired JWTokens (blacklisted tokens) ]
-❌ promote user to admin
-❌ demote admin to user
+✔️ promote user to admin
+✔️ demote admin to user
 ❌ change password
+❌ logout [ + clear expired JWTokens (blacklisted tokens) ]
 ❌ recover password
 ❌ confirm registration
 ❌ [bonus]getAllUsers (ADMIN only) - returns list of all users
