@@ -6,7 +6,7 @@ TODO
 ✔️ validate - header: JWT;
 ✔️ promote user to admin
 ✔️ demote admin to user
-❌ change password
+✔️ change password
 ❌ logout [ + clear expired JWTokens (blacklisted tokens) ]
 ❌ recover password
 ❌ confirm registration

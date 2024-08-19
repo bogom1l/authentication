@@ -1,5 +1,7 @@
 package com.tinqinacademy.authentication.rest.controllers;
 
+import com.tinqinacademy.authentication.api.operations.changepassword.ChangePasswordInput;
+import com.tinqinacademy.authentication.api.operations.changepassword.ChangePasswordOperation;
 import com.tinqinacademy.authentication.api.operations.demote.DemoteInput;
 import com.tinqinacademy.authentication.api.operations.demote.DemoteOperation;
 import com.tinqinacademy.authentication.api.operations.login.LoginInput;
@@ -31,6 +33,7 @@ public class AuthController extends BaseController {
     private final ValidateJwtOperation validateJwtOperation;
     private final PromoteOperation promoteOperation;
     private final DemoteOperation demoteOperation;
+    private final ChangePasswordOperation changePasswordOperation;
 
     @Operation(summary = "Register",
             description = "Register a new user")
@@ -84,5 +87,16 @@ public class AuthController extends BaseController {
     @PostMapping(RestApiRoutes.DEMOTE)
     public ResponseEntity<?> demote(@RequestBody DemoteInput input) {
         return handle(demoteOperation.process(input));
+    }
+
+    @Operation(summary = "Change password",
+            description = "Change password of a user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @PostMapping(RestApiRoutes.CHANGE_PASSWORD)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordInput input) {
+        return handle(changePasswordOperation.process(input));
     }
 }

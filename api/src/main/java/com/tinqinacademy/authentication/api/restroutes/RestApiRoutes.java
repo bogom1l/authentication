@@ -9,5 +9,6 @@ public class RestApiRoutes {
     public static final String AUTH_CHECK_JWT = API_AUTH + "/validate-jwt";
     public static final String PROMOTE = API_AUTH + "/promote";
     public static final String DEMOTE = API_AUTH + "/demote";
+    public static final String CHANGE_PASSWORD = API_AUTH + "/change-password";
 
 }
