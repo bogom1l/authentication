@@ -20,7 +20,6 @@ import com.tinqinacademy.authentication.api.restroutes.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -38,7 +37,6 @@ public class AuthController extends BaseController {
     private final ChangePasswordOperation changePasswordOperation;
     private final GetAllUsersOperation getAllUsersOperation;
     private final LogoutOperation logoutOperation;
-
 
     @Operation(summary = "Register",
             description = "Register a new user")
@@ -112,7 +110,7 @@ public class AuthController extends BaseController {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
     @GetMapping(RestApiRoutes.GET_ALL_USERS)
-    public ResponseEntity<?> getAllUsers(@RequestBody(required = false)GetAllUsersInput input) {
+    public ResponseEntity<?> getAllUsers(@RequestBody(required = false) GetAllUsersInput input) {
         return handle(getAllUsersOperation.process(input));
     }
 
