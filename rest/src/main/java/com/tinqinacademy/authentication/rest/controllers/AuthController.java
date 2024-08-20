@@ -4,6 +4,8 @@ import com.tinqinacademy.authentication.api.operations.changepassword.ChangePass
 import com.tinqinacademy.authentication.api.operations.changepassword.ChangePasswordOperation;
 import com.tinqinacademy.authentication.api.operations.demote.DemoteInput;
 import com.tinqinacademy.authentication.api.operations.demote.DemoteOperation;
+import com.tinqinacademy.authentication.api.operations.getallusers.GetAllUsersInput;
+import com.tinqinacademy.authentication.api.operations.getallusers.GetAllUsersOperation;
 import com.tinqinacademy.authentication.api.operations.login.LoginInput;
 import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
 import com.tinqinacademy.authentication.api.operations.promote.PromoteInput;
@@ -20,10 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +33,7 @@ public class AuthController extends BaseController {
     private final PromoteOperation promoteOperation;
     private final DemoteOperation demoteOperation;
     private final ChangePasswordOperation changePasswordOperation;
+    private final GetAllUsersOperation getAllUsersOperation;
 
     @Operation(summary = "Register",
             description = "Register a new user")
@@ -98,5 +98,16 @@ public class AuthController extends BaseController {
     @PostMapping(RestApiRoutes.CHANGE_PASSWORD)
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordInput input) {
         return handle(changePasswordOperation.process(input));
+    }
+
+    @Operation(summary = "Get all users",
+            description = "Get all users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @GetMapping(RestApiRoutes.GET_ALL_USERS)
+    public ResponseEntity<?> getAllUsers(@RequestBody(required = false)GetAllUsersInput input) {
+        return handle(getAllUsersOperation.process(input));
     }
 }

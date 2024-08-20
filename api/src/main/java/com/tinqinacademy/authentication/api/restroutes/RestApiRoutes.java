@@ -10,5 +10,6 @@ public class RestApiRoutes {
     public static final String PROMOTE = API_AUTH + "/promote";
     public static final String DEMOTE = API_AUTH + "/demote";
     public static final String CHANGE_PASSWORD = API_AUTH + "/change-password";
+    public static final String GET_ALL_USERS = API_AUTH + "/get-all-users";
 
 }
