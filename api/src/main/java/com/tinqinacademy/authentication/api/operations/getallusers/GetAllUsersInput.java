@@ -5,10 +5,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor //@AllArgsConstructor
 @Builder
 @ToString
 public class GetAllUsersInput implements OperationInput {
-
 }

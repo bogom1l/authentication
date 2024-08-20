@@ -8,7 +8,7 @@ TODO
 ✔️ demote admin to user
 ✔️ change password
 ✔️ [bonus]getAllUsers (ADMIN only) - returns list of all users
-❌ logout [ + clear expired JWTokens (blacklisted tokens) ]
+❌✔️ logout [ + clear expired JWTokens (blacklisted tokens) ]
 ❓ recover password
 ❓ confirm registration
 

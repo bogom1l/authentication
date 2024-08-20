@@ -1,5 +1,6 @@
 package com.tinqinacademy.authentication.core.security;
 
+import com.tinqinacademy.authentication.persistence.repository.BlacklistedTokenRepository;
 import org.springframework.http.HttpStatus;
 import com.tinqinacademy.authentication.api.exceptions.AuthException;
 import com.tinqinacademy.authentication.persistence.model.User;
@@ -25,6 +26,7 @@ import java.util.function.Function;
 @Slf4j
 public class JwtTokenProvider {
     private final UserRepository userRepository;
+    private final BlacklistedTokenRepository blacklistedTokenRepository;
 
     @Value("${jwt.secretKey}")
     private String JWT_SECRET_KEY;
@@ -39,6 +41,10 @@ public class JwtTokenProvider {
 
     public Boolean validateToken(String token) {
         try {
+            if (isTokenBlacklisted(token)) {
+                return false;
+            }
+
             String id = extractId(token);
             String role = extractRole(token);
 
@@ -47,6 +53,10 @@ public class JwtTokenProvider {
             log.error("Token validation error: {}", ex.getMessage());
             return false;
         }
+    }
+
+    private Boolean isTokenBlacklisted(String token) {
+        return blacklistedTokenRepository.existsByToken(token);
     }
 
     private Boolean validateUser(String id, String role) {
