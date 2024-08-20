@@ -8,8 +8,8 @@ TODO
 ✔️ demote admin to user
 ✔️ change password
 ✔️ [bonus]getAllUsers (ADMIN only) - returns list of all users
-❌✔️ logout [ + clear expired JWTokens (blacklisted tokens) ]
+✔️ logout [ + clear expired JWTokens (blacklisted tokens) ]
+❓ confirm registration (? Java Email Service)
 ❓ recover password
-❓ confirm registration
 
 
