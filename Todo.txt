@@ -1,6 +1,5 @@
 TODO
 
-- BFF to Auth endpoints:
 ✔️ login - create JWT and return it in response
 ✔️ register - create User and hash his password
 ✔️ validate - header: JWT;
@@ -11,5 +10,7 @@ TODO
 ✔️ logout [ + clear expired JWTokens (blacklisted tokens) ]
 ❓ confirm registration (? Java Email Service)
 ❓ recover password
+
+❗ BFF Should only get validateJwt endpoint from the Authentication microservice.
 
 
