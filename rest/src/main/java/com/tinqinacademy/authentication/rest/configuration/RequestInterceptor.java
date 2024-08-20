@@ -15,6 +15,8 @@ public class RequestInterceptor implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(accessInterceptor)
-                .addPathPatterns(RestApiRoutes.PROMOTE, RestApiRoutes.DEMOTE);
+                .addPathPatterns(RestApiRoutes.PROMOTE,
+                        RestApiRoutes.DEMOTE,
+                        RestApiRoutes.LOGOUT);
     }
 }

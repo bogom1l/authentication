@@ -8,6 +8,8 @@ import com.tinqinacademy.authentication.api.operations.getallusers.GetAllUsersIn
 import com.tinqinacademy.authentication.api.operations.getallusers.GetAllUsersOperation;
 import com.tinqinacademy.authentication.api.operations.login.LoginInput;
 import com.tinqinacademy.authentication.api.operations.login.LoginOperation;
+import com.tinqinacademy.authentication.api.operations.logout.LogoutInput;
+import com.tinqinacademy.authentication.api.operations.logout.LogoutOperation;
 import com.tinqinacademy.authentication.api.operations.promote.PromoteInput;
 import com.tinqinacademy.authentication.api.operations.promote.PromoteOperation;
 import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
@@ -18,6 +20,7 @@ import com.tinqinacademy.authentication.api.restroutes.RestApiRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,8 @@ public class AuthController extends BaseController {
     private final DemoteOperation demoteOperation;
     private final ChangePasswordOperation changePasswordOperation;
     private final GetAllUsersOperation getAllUsersOperation;
+    private final LogoutOperation logoutOperation;
+
 
     @Operation(summary = "Register",
             description = "Register a new user")
@@ -109,5 +114,22 @@ public class AuthController extends BaseController {
     @GetMapping(RestApiRoutes.GET_ALL_USERS)
     public ResponseEntity<?> getAllUsers(@RequestBody(required = false)GetAllUsersInput input) {
         return handle(getAllUsersOperation.process(input));
+    }
+
+    @Operation(summary = "Logout",
+            description = "Logout")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @PostMapping(RestApiRoutes.LOGOUT)
+    public ResponseEntity<?> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorizationHeader) {
+        String jwt = authorizationHeader.substring(7);
+
+        LogoutInput input = LogoutInput.builder()
+                .token(jwt)
+                .build();
+
+        return handle(logoutOperation.process(input));
     }
 }
