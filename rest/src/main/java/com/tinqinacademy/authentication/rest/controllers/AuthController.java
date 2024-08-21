@@ -12,6 +12,8 @@ import com.tinqinacademy.authentication.api.operations.logout.LogoutInput;
 import com.tinqinacademy.authentication.api.operations.logout.LogoutOperation;
 import com.tinqinacademy.authentication.api.operations.promote.PromoteInput;
 import com.tinqinacademy.authentication.api.operations.promote.PromoteOperation;
+import com.tinqinacademy.authentication.api.operations.recoverpassword.RecoverPasswordInput;
+import com.tinqinacademy.authentication.api.operations.recoverpassword.RecoverPasswordOperation;
 import com.tinqinacademy.authentication.api.operations.register.RegisterInput;
 import com.tinqinacademy.authentication.api.operations.register.RegisterOperation;
 import com.tinqinacademy.authentication.api.operations.validatejwt.ValidateJwtInput;
@@ -37,6 +39,7 @@ public class AuthController extends BaseController {
     private final ChangePasswordOperation changePasswordOperation;
     private final GetAllUsersOperation getAllUsersOperation;
     private final LogoutOperation logoutOperation;
+    private final RecoverPasswordOperation recoverPasswordOperation;
 
     @Operation(summary = "Register",
             description = "Register a new user")
@@ -129,5 +132,16 @@ public class AuthController extends BaseController {
                 .build();
 
         return handle(logoutOperation.process(input));
+    }
+
+    @Operation(summary = "Recover password",
+            description = "Recover password")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    @PostMapping(RestApiRoutes.RECOVER_PASSWORD)
+    public ResponseEntity<?> recoverPassword(@RequestBody RecoverPasswordInput input) {
+        return handle(recoverPasswordOperation.process(input));
     }
 }

@@ -8,8 +8,8 @@ TODO
 ✔️ change password
 ✔️ [bonus]getAllUsers (ADMIN only) - returns list of all users
 ✔️ logout [ + clear expired JWTokens (blacklisted tokens) ]
+❓ recover password (? Java Email Service)
 ❓ confirm registration (? Java Email Service)
-❓ recover password
 
 ❗ BFF Should only get validateJwt endpoint from the Authentication microservice.
 
