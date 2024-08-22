@@ -109,9 +109,8 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
+			<artifactId>spring-boot-starter-mail</artifactId> <!-- todo ? add version -->
 		</dependency>
-
 
 	</dependencies>
 

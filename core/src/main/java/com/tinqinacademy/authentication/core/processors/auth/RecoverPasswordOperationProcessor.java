@@ -6,7 +6,7 @@ import com.tinqinacademy.authentication.api.operations.recoverpassword.RecoverPa
 import com.tinqinacademy.authentication.api.operations.recoverpassword.RecoverPasswordOperation;
 import com.tinqinacademy.authentication.api.operations.recoverpassword.RecoverPasswordOutput;
 import com.tinqinacademy.authentication.core.errorhandler.ErrorHandler;
-import com.tinqinacademy.authentication.core.mail.MailService;
+import com.tinqinacademy.authentication.core.mail.EmailService;
 import com.tinqinacademy.authentication.core.processors.base.BaseOperationProcessor;
 import com.tinqinacademy.authentication.persistence.model.User;
 import com.tinqinacademy.authentication.persistence.repository.UserRepository;
@@ -24,14 +24,14 @@ import java.util.Random;
 @Slf4j
 public class RecoverPasswordOperationProcessor extends BaseOperationProcessor<RecoverPasswordInput> implements RecoverPasswordOperation {
     private final UserRepository userRepository;
-    private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService mailService;
 
-    protected RecoverPasswordOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, UserRepository userRepository, MailService mailService, PasswordEncoder passwordEncoder) {
+    protected RecoverPasswordOperationProcessor(ConversionService conversionService, ErrorHandler errorHandler, Validator validator, UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService mailService) {
         super(conversionService, errorHandler, validator);
         this.userRepository = userRepository;
-        this.mailService = mailService;
         this.passwordEncoder = passwordEncoder;
+        this.mailService = mailService;
     }
 
     @Override
@@ -45,22 +45,22 @@ public class RecoverPasswordOperationProcessor extends BaseOperationProcessor<Re
         log.info("Started RecoverPasswordOperationProcessor with input: {}", input);
         validateInput(input);
 
-        //TODO LOGIC
-
         User user = userRepository.findByEmail(input.getEmail())
                 .orElseThrow(() -> new AuthException("User not found"));
 
-        String newPassword = passwordEncoder.encode(generateRandomPassword());
+        String newPassword = generateRandomPassword();
 
-        mailService.sendRecoverPasswordMail(user.getEmail(), newPassword);
+        user.setPassword(passwordEncoder.encode(generateRandomPassword()));
+        userRepository.save(user);
 
-        // ? save new password to user
+        mailService.sendSimpleMessage(user.getEmail(),
+                "Recover Password",
+                "Your new password is: " + newPassword);
 
         RecoverPasswordOutput output = RecoverPasswordOutput.builder().build();
         log.info("Ended RecoverPasswordOperationProcessor with output: {}", output);
         return output;
     }
-
 
     private String generateRandomPassword() {
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -74,6 +74,4 @@ public class RecoverPasswordOperationProcessor extends BaseOperationProcessor<Re
 
         return password.toString();
     }
-
-
 }
