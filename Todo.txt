@@ -1,16 +1,17 @@
 TODO
 
+❗ BFF Should only get validateJwt endpoint from the Authentication microservice.
+
+✔️ validate - header: JWT;
 ✔️ login - create JWT and return it in response
 ✔️ register - create User and hash his password
-✔️ validate - header: JWT;
 ✔️ promote user to admin
 ✔️ demote admin to user
 ✔️ change password
 ✔️ [bonus]getAllUsers (ADMIN only) - returns list of all users
 ✔️ logout [ + clear expired JWTokens (blacklisted tokens) ]
-❓ recover password (? Java Email Service)
+✔️ recover password (? Java Email Service)
 ❓ confirm registration (? Java Email Service)
 
-❗ BFF Should only get validateJwt endpoint from the Authentication microservice.
 
 
