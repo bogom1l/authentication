@@ -11,7 +11,7 @@ TODO
 ✔️ [bonus]getAllUsers (ADMIN only) - returns list of all users
 ✔️ logout [ + clear expired JWTokens (blacklisted tokens) ]
 ✔️ recover password (? Java Email Service)
-❓ confirm registration (? Java Email Service)
+❓ confirm registration
 
 
 
