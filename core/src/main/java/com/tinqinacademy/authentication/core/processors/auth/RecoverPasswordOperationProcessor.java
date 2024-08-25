@@ -50,10 +50,10 @@ public class RecoverPasswordOperationProcessor extends BaseOperationProcessor<Re
 
         String newPassword = generateRandomPassword();
 
-        user.setPassword(passwordEncoder.encode(generateRandomPassword()));
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
-        mailService.sendSimpleMessage(user.getEmail(),
+        mailService.sendEmail(user.getEmail(),
                 "Recover Password",
                 "Your new password is: " + newPassword);
 
